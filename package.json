@@ -1,0 +1,47 @@
+{
+  "name": "orbs-windows",
+  "version": "1.0.0",
+  "description": "Orbs Radial Launcher for Windows",
+  "author": "agam1234555",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "start:silent": "wscript launch.vbs",
+    "package": "npx @electron/packager . Orbs --platform=win32 --arch=x64 --overwrite --out=dist",
+    "dist": "electron-builder --win"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "studio.orbs.windows",
+    "productName": "Orbs",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer.js",
+      "settings.js",
+      "index.html",
+      "settings.html",
+      "style.css",
+      "settings.css",
+      "config.json",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "assets/icon.png",
+      "cscLink": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
