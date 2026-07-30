@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbs Radial Menu</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app-container">
+    <!-- Decorative shell sized to the actual wheel - carries the shadow/blur/
+         circular backdrop. Kept separate from #app-container (which is now a
+         much larger fully-transparent canvas) so folder sub-arcs have room
+         to render outside the visible wheel without inheriting a giant shadow. -->
+    <div id="wheel-shell"></div>
+
+    <!-- SVG background for the sector slices -->
+    <svg id="wheel-svg" viewBox="0 0 900 900">
+      <defs>
+        <!-- Glow effects, gradients -->
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="6" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+        <radialGradient id="bg-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(25, 25, 30, 0.95)" />
+          <stop offset="100%" stop-color="rgba(10, 10, 12, 0.98)" />
+        </radialGradient>
+        <linearGradient id="active-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="rgba(110, 68, 255, 0.4)" />
+          <stop offset="100%" stop-color="rgba(170, 68, 255, 0.15)" />
+        </linearGradient>
+      </defs>
+      
+      <!-- Outer border ring -->
+      <circle cx="450" cy="450" r="200" class="outer-ring" />
+      
+      <!-- Level 1 main sectors -->
+      <g id="sectors-group"></g>
+
+      <!-- Level 2 folder sub-sectors -->
+      <g id="sub-sectors-group"></g>
+
+      <!-- Level 3 folder sub-sectors -->
+      <g id="sub3-sectors-group"></g>
+
+      <!-- Inner boundary ring -->
+      <circle cx="450" cy="450" r="75" class="inner-ring" />
+    </svg>
+    
+    <!-- Floating icons and labels placed on top of sectors -->
+    <div id="icons-container"></div>
+
+    <!-- Floating icons/labels for Level 2 children -->
+    <div id="sub-icons-container"></div>
+
+    <!-- Floating icons/labels for Level 3 children -->
+    <div id="sub3-icons-container"></div>
+    
+    <!-- Center display panel -->
+    <div id="center-panel">
+      <div id="center-default">
+        <div class="logo-orb"></div>
+        <div class="tip-text">Hold Ctrl+Space</div>
+      </div>
+      <div id="center-details" class="hidden">
+        <div id="center-icon" class="lucide-icon"></div>
+        <div id="center-title">Action</div>
+        <div id="center-desc">Description</div>
+      </div>
+      
+      <!-- Calculator Mini-App Widget -->
+      <div id="widget-calc" class="widget-panel hidden">
+        <div class="widget-calc-display" id="calc-display">0</div>
+        <div class="widget-calc-keys">
+          <div class="calc-row">
+            <span>C</span><span>(</span><span>)</span><span>/</span>
+          </div>
+          <div class="calc-row">
+            <span>7</span><span>8</span><span>9</span><span>*</span>
+          </div>
+          <div class="calc-row">
+            <span>4</span><span>5</span><span>6</span><span>-</span>
+          </div>
+          <div class="calc-row">
+            <span>1</span><span>2</span><span>3</span><span>+</span>
+          </div>
+          <div class="calc-row">
+            <span>0</span><span>.</span><span class="calc-equals">=</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Center Search Panel -->
+      <div id="center-search" class="search-panel hidden">
+        <div class="search-input-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input id="center-search-input" type="text" placeholder="Search apps..." autocomplete="off">
+        </div>
+        <div id="search-results-list" class="search-results-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="brand-icons.js"></script>
+  <script src="renderer.js"></script>
+</body>
+</html>
