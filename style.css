@@ -1,0 +1,583 @@
+:root, html[data-theme="cyberpunk"] {
+  --orb-size: 470px;
+  --blur-intensity: 16px;
+  --accent-purple: #7c4dff;
+  --accent-purple-glow: rgba(124, 77, 255, 0.4);
+  --accent-pink: #f50057;
+  --accent-cyan: #00e5ff;
+}
+
+html[data-theme="oled"] {
+  --orb-size: 470px;
+  --blur-intensity: 16px;
+  --accent-purple: #ffffff;
+  --accent-purple-glow: rgba(255, 255, 255, 0.25);
+  --accent-pink: #cccccc;
+  --accent-cyan: #aaaaaa;
+}
+
+html[data-theme="frost"] {
+  --orb-size: 470px;
+  --blur-intensity: 16px;
+  --accent-purple: #00e5ff;
+  --accent-purple-glow: rgba(0, 229, 255, 0.4);
+  --accent-pink: #00b0ff;
+  --accent-cyan: #80d8ff;
+}
+
+html[data-theme="monokai"] {
+  --orb-size: 470px;
+  --blur-intensity: 16px;
+  --accent-purple: #ffd54f;
+  --accent-purple-glow: rgba(255, 213, 79, 0.4);
+  --accent-pink: #ff6e40;
+  --accent-cyan: #a7ffeb;
+}
+
+html[data-theme="sunset"] {
+  --orb-size: 470px;
+  --blur-intensity: 16px;
+  --accent-purple: #ff4081;
+  --accent-purple-glow: rgba(255, 64, 129, 0.4);
+  --accent-pink: #ff6d00;
+  --accent-cyan: #aa00ff;
+}
+
+.native-app-icon {
+  width: 26px;
+  height: 26px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.3));
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/JetBrainsMono-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/JetBrainsMono-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('./assets/JetBrainsMono-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'lucide';
+  src: url('./assets/lucide.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.lucide-icon {
+  font-family: 'lucide' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+}
+
+body {
+  font-family: 'JetBrains Mono', -apple-system, sans-serif;
+  background: transparent;
+  color: #e5e5e7;
+  overflow: hidden;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#app-container {
+  width: 900px;
+  height: 900px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Sized to the actual wheel (outer ring diameter ~444px + margin), not the
+   larger transparent canvas - so the shadow/blur stays a tight circle
+   around the visible wheel instead of ballooning to the full 900px canvas. */
+#wheel-shell {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: var(--orb-size);
+  height: var(--orb-size);
+  border-radius: 50%;
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(var(--blur-intensity));
+  -webkit-backdrop-filter: blur(var(--blur-intensity));
+  animation: scaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 0;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: translate(-50%, -50%) scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+#wheel-svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Slices & Rings styling */
+.outer-ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 1.5;
+}
+
+.inner-ring {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.12);
+  stroke-width: 1.5;
+}
+
+.sector-slice {
+  fill: url(#bg-grad);
+  stroke: rgba(255, 255, 255, 0.04);
+  stroke-width: 1px;
+  cursor: pointer;
+  transition: fill 0.2s cubic-bezier(0.16, 1, 0.3, 1), stroke 0.2s;
+}
+
+.sector-slice.active {
+  fill: url(#active-grad);
+  stroke: rgba(155, 100, 255, 0.5);
+  filter: url(#glow);
+  transition: fill 0.15s ease-out, stroke 0.15s;
+}
+
+/* Floating labels and icons overlay */
+#icons-container, #sub-icons-container, #sub3-icons-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.floating-item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s;
+  opacity: 0.65;
+  width: 90px;
+  height: 90px;
+}
+
+.floating-item.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.18);
+  text-shadow: 0 0 12px rgba(170, 100, 255, 0.6);
+}
+
+.floating-icon {
+  font-size: 28px;
+  margin-bottom: 6px;
+  color: #ffffff;
+  transition: color 0.2s;
+}
+
+.floating-item.active .floating-icon {
+  color: #aa88ff;
+}
+
+.floating-name {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.item-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 8px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+}
+
+.item-badge.quickkey-badge {
+  background: rgba(170, 102, 255, 0.35);
+  border: 1px solid rgba(200, 150, 255, 0.6);
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.folder-indicator {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.35);
+  letter-spacing: 2px;
+  margin-top: 1px;
+}
+
+/* Center Panel layout */
+#center-panel {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: rgba(15, 15, 20, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  overflow: hidden;
+  text-align: center;
+  transition: width 0.15s ease-out, height 0.15s ease-out, border-radius 0.15s ease-out;
+}
+
+/* The calculator is a rectangular grid - a circular clip mask cuts off its
+   top and bottom rows. Widen into a rounded rectangle only while it's shown. */
+#center-panel.widget-mode {
+  width: 200px;
+  height: 220px;
+  border-radius: 20px;
+  padding: 12px;
+}
+
+#center-panel.search-mode {
+  width: 220px;
+  height: 230px;
+  border-radius: 18px;
+  padding: 10px;
+  overflow: hidden;
+  justify-content: flex-start;
+}
+
+/* Live Search Panel */
+.search-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-input-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search-input-wrap .search-icon {
+  position: absolute;
+  left: 8px;
+  width: 13px;
+  height: 13px;
+  color: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+#center-search-input {
+  width: 100%;
+  padding: 6px 8px 6px 26px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(124, 77, 255, 0.4);
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 11px;
+  outline: none;
+  font-family: inherit;
+}
+
+#center-search-input:focus {
+  border-color: rgba(170, 100, 255, 0.8);
+  box-shadow: 0 0 10px rgba(124, 77, 255, 0.3);
+}
+
+.search-results-list {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 2px;
+}
+
+.search-results-list::-webkit-scrollbar {
+  width: 4px;
+}
+.search-results-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.1s;
+}
+
+.search-result-item.selected, .search-result-item:hover {
+  background: rgba(124, 77, 255, 0.3);
+  border-color: rgba(170, 100, 255, 0.5);
+}
+
+.search-result-icon {
+  width: 16px;
+  height: 16px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.search-result-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.search-result-sub {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Default Logo state */
+#center-default {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-orb {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #aa66ff 0%, #6e44ff 100%);
+  box-shadow: 0 0 20px rgba(110, 68, 255, 0.8), inset 0 0 10px rgba(255, 255, 255, 0.4);
+  animation: pulse 3s infinite ease-in-out;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.logo-orb::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(110, 68, 255, 0.8);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 28px rgba(110, 68, 255, 0.95);
+  }
+}
+
+.tip-text {
+  font-size: 8px;
+  color: rgba(255, 255, 255, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* Detailed info state */
+#center-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease-out;
+}
+
+#center-icon {
+  font-size: 32px;
+  color: #aa88ff;
+  margin-bottom: 8px;
+  text-shadow: 0 0 15px rgba(170, 136, 255, 0.4);
+}
+
+#center-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 4px;
+  white-space: nowrap;
+}
+
+#center-desc {
+  font-size: 9px;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.2;
+}
+
+/* Helpers */
+.hidden {
+  display: none !important;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Calculator Mini-App Widget */
+.widget-panel {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.widget-calc-display {
+  width: 100%;
+  height: 30px;
+  line-height: 30px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0 8px;
+  border-radius: 6px;
+  text-align: right;
+  font-size: 16px;
+  font-weight: bold;
+  color: #00ffcc;
+  font-family: monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-sizing: border-box;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.widget-calc-keys {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.calc-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+  flex: 1;
+}
+
+.calc-row span {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calc-row span:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.calc-row span.calc-equals {
+  background: #6e44ff;
+  color: white;
+}
+.calc-row span.calc-equals:active {
+  background: #8e66ff;
+}
+
+.simple-icon-img {
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.4));
+  transition: transform 0.15s, filter 0.15s;
+}
+
+.simple-icon-img.dark-brand-icon {
+  filter: brightness(0) invert(1) !important;
+}
