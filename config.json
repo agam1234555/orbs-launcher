@@ -1,0 +1,109 @@
+{
+  "hotkey": {
+    "modifier": "ctrl",
+    "key": "space"
+  },
+  "appearance": {
+    "orbSize": 470,
+    "blurIntensity": 16,
+    "theme": "cyberpunk"
+  },
+  "items": [
+    {
+      "name": "Explorer",
+      "icon": "folder",
+      "type": "app",
+      "target": "explorer.exe",
+      "description": "Open File Explorer",
+      "quickKey": "e"
+    },
+    {
+      "name": "Notepad",
+      "icon": "notebook",
+      "type": "app",
+      "target": "notepad.exe",
+      "description": "Open Text Editor",
+      "quickKey": "n"
+    },
+    {
+      "name": "Terminal",
+      "icon": "terminal",
+      "type": "app",
+      "target": "cmd.exe",
+      "description": "Open Command Prompt",
+      "quickKey": "t"
+    },
+    {
+      "name": "Task Manager",
+      "icon": "cpu",
+      "type": "app",
+      "target": "taskmgr.exe",
+      "description": "Open Task Manager",
+      "quickKey": "m"
+    },
+    {
+      "name": "Paint",
+      "icon": "palette",
+      "type": "app",
+      "target": "mspaint.exe",
+      "description": "Open Windows Paint",
+      "quickKey": "p"
+    },
+    {
+      "name": "Calculator",
+      "icon": "calculator",
+      "type": "widget",
+      "target": "calculator",
+      "description": "Quick Calculator Widget",
+      "quickKey": "c"
+    },
+    {
+      "name": "System",
+      "icon": "settings",
+      "type": "folder",
+      "quickKey": "s",
+      "children": [
+        {
+          "name": "Orbs Settings",
+          "icon": "settings",
+          "type": "system",
+          "target": "open-settings",
+          "description": "Configure Orbs Launcher & Appearance",
+          "quickKey": "s"
+        },
+        {
+          "name": "Windows Settings",
+          "icon": "sliders",
+          "type": "app",
+          "target": "ms-settings:",
+          "description": "Open Windows Settings",
+          "quickKey": "w"
+        },
+        {
+          "name": "Snipping Tool",
+          "icon": "camera",
+          "type": "app",
+          "target": "snippingtool.exe",
+          "description": "Take Screen Captures",
+          "quickKey": "t"
+        },
+        {
+          "name": "Control Panel",
+          "icon": "layout-grid",
+          "type": "app",
+          "target": "control.exe",
+          "description": "Open Control Panel",
+          "quickKey": "c"
+        },
+        {
+          "name": "Lock Screen",
+          "icon": "lock",
+          "type": "system",
+          "target": "lock-screen",
+          "description": "Lock Windows session",
+          "quickKey": "l"
+        }
+      ]
+    }
+  ]
+}
