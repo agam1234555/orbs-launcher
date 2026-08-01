@@ -1,0 +1,117 @@
+{
+  "hotkey": {
+    "modifier": "ctrl",
+    "key": "space"
+  },
+  "appearance": {
+    "orbSize": 420,
+    "blurIntensity": 18,
+    "theme": "sunset"
+  },
+  "items": [
+    {
+      "name": "CPU-Z",
+      "icon": "cpu",
+      "type": "app",
+      "target": "C:\\Program Files\\CPUID\\CPU-Z\\cpuz.exe",
+      "description": "Open WhatsApp Web",
+      "quickKey": "w",
+      "userIcon": true
+    },
+    {
+      "name": "Terminal",
+      "icon": "terminal",
+      "type": "app",
+      "target": "cmd.exe",
+      "description": "Open Command Prompt",
+      "quickKey": "t"
+    },
+    {
+      "name": "YouTube",
+      "icon": "youtube",
+      "type": "app",
+      "target": "C:\\Users\\thuge\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Brave Apps\\YouTube Music.lnk",
+      "description": "Launch YouTube PWA",
+      "quickKey": "c"
+    },
+    {
+      "name": "Notepad",
+      "icon": "notebook",
+      "type": "app",
+      "target": "C:\\Users\\thuge\\OneDrive\\Desktop\\Haveloc.lnk",
+      "description": "Open Text Editor",
+      "quickKey": "n"
+    },
+    {
+      "name": "Calculator",
+      "icon": "calculator",
+      "type": "widget",
+      "target": "calculator",
+      "description": "Quick Calculator Widget",
+      "quickKey": "k"
+    },
+    {
+      "name": "System",
+      "icon": "settings",
+      "type": "folder",
+      "quickKey": "s",
+      "children": [
+        {
+          "name": "Orbs Settings",
+          "icon": "settings",
+          "type": "system",
+          "target": "open-settings",
+          "description": "Configure Orbs Launcher & Appearance",
+          "quickKey": "s"
+        },
+        {
+          "name": "Dark Mode",
+          "icon": "moon",
+          "type": "system",
+          "target": "toggle-dark-mode",
+          "description": "Toggle system theme",
+          "quickKey": "d"
+        },
+        {
+          "name": "Empty Trash",
+          "icon": "trash-2",
+          "type": "system",
+          "target": "empty-trash",
+          "description": "Empty the Recycle Bin",
+          "quickKey": "e"
+        },
+        {
+          "name": "Lock Screen",
+          "icon": "lock",
+          "type": "system",
+          "target": "lock-screen",
+          "description": "Lock Windows session",
+          "quickKey": "l"
+        },
+        {
+          "name": "Mute",
+          "icon": "volume-x",
+          "type": "system",
+          "target": "volume-mute",
+          "description": "Toggle master audio mute"
+        }
+      ]
+    },
+    {
+      "name": "Explorer",
+      "icon": "folder",
+      "type": "app",
+      "target": "explorer.exe",
+      "description": "Open File Explorer",
+      "quickKey": "x"
+    },
+    {
+      "name": "Brave",
+      "icon": "brave",
+      "type": "app",
+      "target": "C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe",
+      "description": "Launch Brave Browser",
+      "quickKey": "b"
+    }
+  ]
+}
