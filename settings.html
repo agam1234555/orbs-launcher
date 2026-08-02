@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Orbs Settings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+  <!-- Ambient background glow -->
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <div class="window-shell">
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-orb-sm"></div>
+        <div class="brand-text">
+          <h1>Orbs Settings</h1>
+          <span class="version-tag">Radial Launcher v6</span>
+        </div>
+      </div>
+      <!-- Tab Navigation -->
+      <nav class="tabs-nav">
+        <button class="tab-btn active" data-tab="tab-items">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Wheel Items
+        </button>
+        <button class="tab-btn" data-tab="tab-appearance">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          Appearance
+        </button>
+        <button class="tab-btn" data-tab="tab-hotkey">
+          <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M8 16h8"/></svg>
+          Hotkey
+        </button>
+      </nav>
+    </header>
+
+    <main class="content-area">
+      <!-- Tab 1: Wheel Items -->
+      <div id="tab-items" class="tab-pane active">
+        <section class="glass-panel">
+          <div class="panel-header-row">
+            <div>
+              <h2>Wheel Items <span id="item-count" class="badge-count">0/12</span></h2>
+              <p class="section-desc">Manage up to 12 items on Level 1, plus nested folders up to 3 levels deep.</p>
+            </div>
+            <button id="add-item" class="btn-primary-gradient">+ Add Item</button>
+          </div>
+          <div id="items-list"></div>
+        </section>
+      </div>
+
+      <!-- Tab 2: Appearance -->
+      <div id="tab-appearance" class="tab-pane">
+        <div class="two-col-layout">
+          <section class="glass-panel col-left">
+            <h2>Canvas & Geometry</h2>
+            
+            <div class="control-group">
+              <div class="control-label-row">
+                <label for="orb-size-slider">Radial Wheel Size</label>
+                <span id="orb-size-val" class="slider-badge">470px</span>
+              </div>
+              <input id="orb-size-slider" type="range" min="320" max="600" step="10" value="470">
+              <p class="field-hint">Diameter of the main outer ring in pixels.</p>
+            </div>
+
+            <div class="control-group">
+              <div class="control-label-row">
+                <label for="blur-slider">Glass Blur Intensity</label>
+                <span id="blur-val" class="slider-badge">16px</span>
+              </div>
+              <input id="blur-slider" type="range" min="0" max="40" step="1" value="16">
+              <p class="field-hint">Backdrop blur effect behind the radial wheel glass container.</p>
+            </div>
+
+            <div class="control-group" style="margin-top: 20px;">
+              <label>Preset Theme</label>
+              <div class="theme-picker-grid">
+                <label class="theme-card">
+                  <input type="radio" name="theme-select" value="cyberpunk" checked>
+                  <div class="theme-preview theme-cyberpunk"></div>
+                  <span>Cyberpunk</span>
+                </label>
+                <label class="theme-card">
+                  <input type="radio" name="theme-select" value="oled">
+                  <div class="theme-preview theme-oled"></div>
+                  <span>OLED Dark</span>
+                </label>
+                <label class="theme-card">
+                  <input type="radio" name="theme-select" value="frost">
+                  <div class="theme-preview theme-frost"></div>
+                  <span>Frost</span>
+                </label>
+                <label class="theme-card">
+                  <input type="radio" name="theme-select" value="monokai">
+                  <div class="theme-preview theme-monokai"></div>
+                  <span>Monokai</span>
+                </label>
+                <label class="theme-card">
+                  <input type="radio" name="theme-select" value="sunset">
+                  <div class="theme-preview theme-sunset"></div>
+                  <span>Sunset</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- Live Preview Widget -->
+          <section class="glass-panel col-right preview-panel">
+            <h2>Live Wheel Preview</h2>
+            <div class="preview-stage">
+              <div id="mini-orb-preview" class="mini-orb-shell">
+                <div class="mini-orb-center">
+                  <div class="mini-orb-glow"></div>
+                  <span class="mini-tip">Ctrl+Space</span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <!-- Tab 3: Hotkey -->
+      <div id="tab-hotkey" class="tab-pane">
+        <section class="glass-panel">
+          <h2>Activation Shortcut</h2>
+          <p class="section-desc">Hold the modifier key and press the shortcut key to toggle the radial menu on screen.</p>
+          
+          <div class="hotkey-grid">
+            <div class="control-group">
+              <label for="hotkey-modifier">Modifier Key</label>
+              <select id="hotkey-modifier" class="styled-select">
+                <option value="ctrl">Control (Ctrl)</option>
+                <option value="alt">Alt (Option)</option>
+                <option value="shift">Shift</option>
+              </select>
+            </div>
+
+            <div class="control-group">
+              <label for="hotkey-key">Trigger Key</label>
+              <input id="hotkey-key" type="text" maxlength="20" placeholder="space" class="styled-input">
+            </div>
+          </div>
+
+          <div class="hotkey-preview-card">
+            <span class="preview-title">Current Shortcut:</span>
+            <div class="shortcut-pill">
+              <span id="pill-modifier" class="key-cap">CTRL</span>
+              <span class="key-plus">+</span>
+              <span id="pill-key" class="key-cap">SPACE</span>
+            </div>
+          </div>
+
+          <div class="setting-divider"></div>
+
+          <div class="toggle-row">
+            <div>
+              <h3 class="toggle-title">Launch Orbs on Windows Startup</h3>
+              <p class="section-desc" style="margin-top:2px;">Automatically start Orbs Launcher in system tray when logging into Windows.</p>
+            </div>
+            <label class="switch">
+              <input id="autostart-toggle" type="checkbox">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Footer Status & Actions -->
+    <footer class="app-footer">
+      <div id="status" class="status-msg"></div>
+      <div class="footer-actions">
+        <button id="cancel-btn" class="btn-ghost">Cancel</button>
+        <button id="save-btn" class="btn-primary-gradient">Save Changes</button>
+      </div>
+    </footer>
+  </div>
+
+  <!-- App Picker Modal -->
+  <div id="app-picker-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel">
+      <div class="modal-header">
+        <div>
+          <h3>Select Installed Application</h3>
+          <p class="modal-desc">Search apps installed on your Windows Start Menu</p>
+        </div>
+        <button id="close-app-picker" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="app-search-input" type="text" placeholder="Type app name (e.g. Chrome, WhatsApp, VS Code)...">
+      </div>
+      <div id="app-list" class="app-list-container"></div>
+    </div>
+  </div>
+
+  <!-- Icon Picker Modal -->
+  <div id="icon-picker-modal" class="modal-overlay hidden">
+    <div class="modal-content glass-panel icon-modal-content">
+      <div class="modal-header">
+        <div>
+          <h3>Select Icon</h3>
+          <p class="modal-desc">Choose from 600+ Brand logos and Lucide UI icons</p>
+        </div>
+        <button id="close-icon-picker" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="search-box">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input id="icon-search-input" type="text" placeholder="Search icons (e.g. youtube, discord, play, folder, setting)...">
+      </div>
+      <div class="icon-categories">
+        <button class="cat-pill active" data-cat="all">All</button>
+        <button class="cat-pill" data-cat="brand">Brands & Apps</button>
+        <button class="cat-pill" data-cat="system">System & Files</button>
+        <button class="cat-pill" data-cat="media">Media & Audio</button>
+        <button class="cat-pill" data-cat="dev">Dev & Tools</button>
+      </div>
+      <div id="icon-grid" class="icon-grid-container"></div>
+    </div>
+  </div>
+
+  <datalist id="icon-list"></datalist>
+
+  <script src="brand-icons.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>
