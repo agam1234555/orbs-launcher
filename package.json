@@ -2,10 +2,12 @@
   "name": "orbs-windows",
   "version": "1.0.0",
   "description": "Orbs Radial Launcher for Windows",
+  "author": "agam1234555",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "start:silent": "wscript launch.vbs",
+    "package": "npx @electron/packager . Orbs --platform=win32 --arch=x64 --overwrite --out=dist",
     "dist": "electron-builder --win"
   },
   "devDependencies": {
@@ -31,8 +33,9 @@
       "assets/**/*"
     ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/tray-icon.png"
+      "target": ["nsis", "portable"],
+      "icon": "assets/icon.png",
+      "cscLink": null
     },
     "nsis": {
       "oneClick": false,
