@@ -2,7 +2,7 @@
 
 A radial application launcher for Windows.
 
-![Orbs Radial Launcher](docs/demo.png)
+![Orbs Radial Launcher](docs/demo.gif)
 
 ## Features
 
