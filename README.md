@@ -36,6 +36,8 @@ A radial application launcher for Windows.
   - **Quick Key Bindings**: Assign custom single-key accelerators to specific entries.
   - **Appearance**: Adjust orb size (diameter in pixels), background blur strength, and interface styling.
 
+![Orbs Settings Window](docs/screenshot-settings.png)
+
 ---
 
 ## Building from Source
